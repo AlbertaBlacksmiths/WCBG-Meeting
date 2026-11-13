@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Joining Guild Meeting...</title>
+  <title>Guild Video Meeting</title>
   <style>
     body { font-family: sans-serif; text-align: center; padding: 45px 20px; background: #1a1a1a; color: #fff; }
     .btn { display: inline-block; margin-top: 20px; padding: 20px 32px; font-size: 22px; font-weight: bold;
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <!-- DESKTOP FALLBACK INSTRUCTIONS -->
+    <!-- DESKTOP INSTRUCTIONS -->
     <div class="os-desktop">
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
@@ -70,7 +70,6 @@
       btn.href = targetUrl.replace(/^https:\/\//, "x-safari-https://");
     } else {
       document.querySelector(".os-desktop").style.display = "block";
-      window.location.replace(targetUrl);
     }
   </script>
 </body>
