@@ -14,9 +14,9 @@
     .card.browser-warn { border-left-color: #fbc02d; display: none; }
     .card strong { color: #fff; display: block; margin-bottom: 4px; }
     .warn { color: #fbc02d; }
-    .icon-badge { display: inline-block; background: #3c4043; color: #fff; border: 1px solid #666;
-                  border-radius: 5px; padding: 2px 8px; font-weight: bold; font-size: 14px;
-                  line-height: 1.2; vertical-align: middle; margin: 0 2px; }
+    .icon-badge { display: inline-flex; align-items: center; justify-content: center; background: #3c4043; color: #fff; border: 1px solid #666;
+                  border-radius: 5px; padding: 3px 6px; vertical-align: middle; margin: 0 2px; }
+    .icon-badge svg { width: 14px; height: 14px; fill: currentColor; display: block; }
     .os-android, .os-ios, .os-desktop { display: none; }
   </style>
 </head>
@@ -65,7 +65,10 @@
       </div>
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
-        Click the <span id="desktop-icon" class="icon-badge">[Lock icon]</span> left of the web address &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b>.
+        Click the <span id="desktop-icon-badge" class="icon-badge">
+          <!-- Default Lock SVG -->
+          <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0-2-.9-2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        </span> left of the web address &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b>.
       </div>
     </div>
   </div>
@@ -106,7 +109,10 @@
       const isSafari = /Safari/i.test(ua) && !/Chrome|Chromium|Edg|OPR/i.test(ua);
 
       if (isChromeOrBrave) {
-        document.getElementById("desktop-icon").textContent = "[Tune icon]";
+        // Swap to Chrome's two-slider tune/controls SVG icon
+        document.getElementById("desktop-icon-badge").innerHTML = `
+          <svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg>
+        `;
       } else if (/Firefox/i.test(ua)) {
         document.getElementById("desktop-firefox-card").style.display = "block";
       } else if (isSafari) {
