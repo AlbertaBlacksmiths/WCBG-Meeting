@@ -8,12 +8,14 @@
     body { font-family: sans-serif; text-align: center; padding: 50px 20px; background: #1a1a1a; color: #fff; }
     .btn { display: inline-block; margin-top: 25px; padding: 20px 32px; font-size: 22px; font-weight: bold;
            background: #2e7d32; color: #fff; text-decoration: none; border-radius: 10px; }
+    .tip { margin-top: 30px; font-size: 15px; color: #bbb; line-height: 1.5; }
   </style>
 </head>
 <body>
   <h2>Blacksmithing Guild Video Room</h2>
   <p>Tap the green button below to open the meeting in your browser:</p>
   <a id="join-btn" class="btn" href="#">Join Meeting in Browser</a>
+  <p class="tip">Still inside your email app? Tap the <strong>three dots (⋮)</strong> in the top-right corner and choose <strong>Open in Chrome</strong>.</p>
 
   <script>
     const targetUrl = "https://jitsi.riot.im/WesternCanadianBlacksmithsGuild#config.startWithAudioMuted=true&config.disableDeepLinking=true";
@@ -23,10 +25,11 @@
     const btn = document.getElementById("join-btn");
 
     if (isAndroid) {
+      // Force full Chrome app outside the Gmail Custom Tab (no fallback URL so it doesn't stay embedded)
       const stripped = targetUrl.replace(/^https?:\/\//, "");
-      const intentUrl = "intent://" + stripped + "#Intent;scheme=https;action=android.intent.action.VIEW;S.browser_fallback_url=" + encodeURIComponent(targetUrl) + ";end";
-      btn.href = intentUrl;
-      window.location.replace(intentUrl);
+      const chromeIntent = "intent://" + stripped + "#Intent;scheme=https;package=com.android.chrome;end";
+      btn.href = chromeIntent;
+      window.location.href = chromeIntent;
     } else if (isIOS) {
       btn.href = targetUrl.replace(/^https:\/\//, "x-safari-https://");
     } else {
