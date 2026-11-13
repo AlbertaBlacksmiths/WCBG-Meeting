@@ -9,10 +9,14 @@
     .btn { display: inline-block; margin-top: 20px; padding: 20px 32px; font-size: 22px; font-weight: bold;
            background: #2e7d32; color: #fff; text-decoration: none; border-radius: 10px; }
     .cards { max-width: 420px; margin: 30px auto 0; text-align: left; }
-    .card { background: #262626; border-left: 4px solid #4caf50; padding: 12px 16px; border-radius: 6px;
-            margin-bottom: 12px; font-size: 16px; line-height: 1.4; color: #eee; }
-    .card strong { color: #fff; display: block; margin-bottom: 2px; }
+    .card { background: #262626; border-left: 4px solid #4caf50; padding: 14px 16px; border-radius: 6px;
+            margin-bottom: 12px; font-size: 16px; line-height: 1.5; color: #eee; }
+    .card.browser-warn { border-left-color: #fbc02d; display: none; }
+    .card strong { color: #fff; display: block; margin-bottom: 4px; }
     .warn { color: #fbc02d; }
+    .icon-badge { display: inline-block; background: #3c4043; color: #fff; border: 1px solid #666;
+                  border-radius: 5px; padding: 1px 8px; font-weight: bold; font-size: 17px;
+                  line-height: 1.2; vertical-align: middle; margin: 0 2px; }
     .os-android, .os-ios, .os-desktop { display: none; }
   </style>
 </head>
@@ -23,13 +27,17 @@
   <div class="cards">
     <!-- ANDROID INSTRUCTIONS -->
     <div class="os-android">
+      <div id="android-firefox-card" class="card browser-warn">
+        <strong><span class="warn">Using Firefox?</span></strong>
+        Firefox has known audio issues with Jitsi. For best results, copy this page's link and open it in <b>Chrome</b>.
+      </div>
       <div class="card">
         <strong>Want to view email PDFs during the call?</strong>
-        Tap <b>⋮</b> (top right) &rarr; <b>Open in Chrome</b>.
+        Tap the <span id="and-menu-icon-1" class="icon-badge">⋮</span> menu button (<span id="and-menu-pos">top right</span>) &rarr; <b id="and-open-text">Open in Chrome</b>.
       </div>
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
-        Tap <b>⋮</b> (top right) &rarr; <b>Settings</b> &rarr; <b>Site settings</b> &rarr; <b>Microphone</b> &amp; <b>Camera</b> &rarr; unblock <b>jitsi.riot.im</b>.
+        Tap the <span id="and-menu-icon-2" class="icon-badge">⋮</span> menu button &rarr; <b>Settings</b> &rarr; <b id="and-site-settings">Site settings</b> &rarr; <b>Microphone</b> &amp; <b>Camera</b> &rarr; unblock <b>jitsi.riot.im</b>.
       </div>
     </div>
 
@@ -37,19 +45,27 @@
     <div class="os-ios">
       <div class="card">
         <strong>Want to view email PDFs during the call?</strong>
-        Tap the <b>🧭 Safari compass</b> (bottom right) to open in a separate browser window.
+        The green button above automatically opens the call in <b>Safari</b> so your email stays separate.
       </div>
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
-        Open your iPhone <b>⚙️ Settings app</b> &rarr; <b>🧭 Safari</b> &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b> (or <b>Ask</b>).
+        Open your iPhone <span class="icon-badge">⚙️</span> <b>Settings app</b> &rarr; <span class="icon-badge">🧭</span> <b>Safari</b> &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b> (or <b>Ask</b>).
       </div>
     </div>
 
     <!-- DESKTOP INSTRUCTIONS -->
     <div class="os-desktop">
+      <div id="desktop-firefox-card" class="card browser-warn">
+        <strong><span class="warn">Using Firefox?</span></strong>
+        Firefox can have video freezing or audio issues in group Jitsi calls. For best results, open this link in <b>Chrome</b>, <b>Edge</b>, or <b>Brave</b>.
+      </div>
+      <div id="desktop-safari-card" class="card browser-warn">
+        <strong><span class="warn">Using Safari?</span></strong>
+        If you can't hear others, click anywhere inside the meeting window to unmute playback. For the smoothest experience, use <b>Chrome</b> or <b>Edge</b>.
+      </div>
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
-        Click the <b>tune/lock icon</b> left of the web address &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b>.
+        Click the <span id="desktop-icon" class="icon-badge">🔒</span> button left of the web address &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b>.
       </div>
     </div>
   </div>
@@ -65,11 +81,37 @@
       document.querySelector(".os-android").style.display = "block";
       const stripped = targetUrl.replace(/^https?:\/\//, "");
       btn.href = "intent://" + stripped + "#Intent;scheme=https;action=android.intent.action.VIEW;S.browser_fallback_url=" + encodeURIComponent(targetUrl) + ";end";
+
+      if (/SamsungBrowser/i.test(ua)) {
+        document.getElementById("and-menu-icon-1").textContent = "☰";
+        document.getElementById("and-menu-icon-2").textContent = "☰";
+        document.getElementById("and-menu-pos").textContent = "bottom right";
+        document.getElementById("and-open-text").textContent = "Open in Samsung Internet";
+        document.getElementById("and-site-settings").textContent = "Sites and downloads → Site permissions";
+      } else if (/Firefox/i.test(ua)) {
+        document.getElementById("android-firefox-card").style.display = "block";
+        document.getElementById("and-open-text").textContent = "Open in Firefox";
+        document.getElementById("and-site-settings").textContent = "Site permissions";
+      } else if (/EdgA/i.test(ua)) {
+        document.getElementById("and-open-text").textContent = "Open in Edge";
+      } else if (/Brave/i.test(ua)) {
+        document.getElementById("and-open-text").textContent = "Open in Brave";
+      }
     } else if (isIOS) {
       document.querySelector(".os-ios").style.display = "block";
       btn.href = targetUrl.replace(/^https:\/\//, "x-safari-https://");
     } else {
       document.querySelector(".os-desktop").style.display = "block";
+      const isChromeOrBrave = /Chrome/i.test(ua) && !/Edg|OPR/i.test(ua);
+      const isSafari = /Safari/i.test(ua) && !/Chrome|Chromium|Edg|OPR/i.test(ua);
+
+      if (isChromeOrBrave) {
+        document.getElementById("desktop-icon").textContent = "🎛️";
+      } else if (/Firefox/i.test(ua)) {
+        document.getElementById("desktop-firefox-card").style.display = "block";
+      } else if (isSafari) {
+        document.getElementById("desktop-safari-card").style.display = "block";
+      }
     }
   </script>
 </body>
