@@ -8,14 +8,19 @@
     body { font-family: sans-serif; text-align: center; padding: 50px 20px; background: #1a1a1a; color: #fff; }
     .btn { display: inline-block; margin-top: 25px; padding: 20px 32px; font-size: 22px; font-weight: bold;
            background: #2e7d32; color: #fff; text-decoration: none; border-radius: 10px; }
-    .tip { margin-top: 30px; font-size: 16px; color: #ddd; line-height: 1.5; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .tip { margin-top: 25px; font-size: 15px; color: #ccc; line-height: 1.5; max-width: 480px; margin-left: auto; margin-right: auto; text-align: left; }
+    .tip li { margin-bottom: 12px; }
   </style>
 </head>
 <body>
   <h2>Blacksmithing Guild Video Room</h2>
   <p>Tap the green button below to join the meeting:</p>
   <a id="join-btn" class="btn" href="https://jitsi.riot.im/WesternCanadianBlacksmithsGuild#config.startWithAudioMuted=true&config.disableDeepLinking=true">Join Meeting in Browser</a>
-  <p class="tip"><strong>Reading PDFs during the meeting?</strong> Tap the <strong>three dots (⋮)</strong> in the top-right corner and select <strong>Open in Chrome</strong> (or Safari) so the meeting stays in its own window.</p>
+  
+  <ul class="tip">
+    <li><strong>No mic/camera prompt?</strong> Tap the <strong>🔒 lock or 🎛️ tune icon</strong> in your address bar, switch Microphone and Camera to <strong>Allow</strong>, and refresh the page.</li>
+    <li><strong>Reading PDFs?</strong> Tap the <strong>three dots (⋮)</strong> in your browser's top-right corner and select <strong>Open in Chrome</strong> (or Safari) so your meeting and email stay in separate windows.</li>
+  </ul>
 
   <script>
     const targetUrl = "https://jitsi.riot.im/WesternCanadianBlacksmithsGuild#config.startWithAudioMuted=true&config.disableDeepLinking=true";
@@ -25,14 +30,11 @@
     const btn = document.getElementById("join-btn");
 
     if (isAndroid) {
-      // Standard Android VIEW intent with browser fallback so it works both in WebViews and in Chrome
       const stripped = targetUrl.replace(/^https?:\/\//, "");
       btn.href = "intent://" + stripped + "#Intent;scheme=https;action=android.intent.action.VIEW;S.browser_fallback_url=" + encodeURIComponent(targetUrl) + ";end";
     } else if (isIOS) {
-      // Breaks out into standalone Safari on iOS 17+
       btn.href = targetUrl.replace(/^https:\/\//, "x-safari-https://");
     } else {
-      // Desktop jumps immediately
       window.location.replace(targetUrl);
     }
   </script>
