@@ -15,7 +15,7 @@
     .card strong { color: #fff; display: block; margin-bottom: 4px; }
     .warn { color: #fbc02d; }
     .icon-badge { display: inline-block; background: #3c4043; color: #fff; border: 1px solid #666;
-                  border-radius: 5px; padding: 1px 8px; font-weight: bold; font-size: 17px;
+                  border-radius: 5px; padding: 2px 8px; font-weight: bold; font-size: 14px;
                   line-height: 1.2; vertical-align: middle; margin: 0 2px; }
     .os-android, .os-ios, .os-desktop { display: none; }
   </style>
@@ -49,7 +49,7 @@
       </div>
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
-        Open your iPhone <span class="icon-badge">⚙️</span> <b>Settings app</b> &rarr; <span class="icon-badge">🧭</span> <b>Safari</b> &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b> (or <b>Ask</b>).
+        Open your iPhone <span class="icon-badge">⚙️ Settings</span> &rarr; <span class="icon-badge">🧭 Safari</span> &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b> (or <b>Ask</b>).
       </div>
     </div>
 
@@ -65,7 +65,7 @@
       </div>
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
-        Click the <span id="desktop-icon" class="icon-badge">🔒</span> button left of the web address &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b>.
+        Click the <span id="desktop-icon" class="icon-badge">[Lock icon]</span> left of the web address &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b>.
       </div>
     </div>
   </div>
@@ -106,7 +106,7 @@
       const isSafari = /Safari/i.test(ua) && !/Chrome|Chromium|Edg|OPR/i.test(ua);
 
       if (isChromeOrBrave) {
-        document.getElementById("desktop-icon").textContent = "🎛️";
+        document.getElementById("desktop-icon").textContent = "[Tune icon]";
       } else if (/Firefox/i.test(ua)) {
         document.getElementById("desktop-firefox-card").style.display = "block";
       } else if (isSafari) {
