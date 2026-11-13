@@ -32,8 +32,9 @@
         Firefox has known audio issues with Jitsi. For best results, copy this page's link and open it in <b>Chrome</b>.
       </div>
       <div id="android-pdf-card" class="card pdf-tip">
-        <strong>Want to view email PDFs during the call?</strong>
-        Tap the <span id="and-menu-icon-1" class="icon-badge">⋮</span> menu button (<span id="and-menu-pos">top right</span>) &rarr; <b id="and-open-text">Open in Chrome</b>.
+        <strong>Want to open emails during the meeting?</strong>
+        Tap the <span id="and-menu-icon-1" class="icon-badge">⋮</span> menu button (<span id="and-menu-pos">top right</span>) &rarr; <b id="and-open-text">Open in Chrome</b>. 
+        <br><br><span style="font-size: 14px; color: #ccc;"><i>Note: If you don't see this option, or if you are already using your browser, you can freely open other emails and view attachments during the meeting without closing the call.</i></span>
       </div>
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
@@ -44,8 +45,9 @@
     <!-- iOS (iPHONE / iPAD) INSTRUCTIONS -->
     <div class="os-ios">
       <div id="ios-pdf-card" class="card pdf-tip">
-        <strong>Want to view email PDFs during the call?</strong>
+        <strong>Want to open emails during the meeting?</strong>
         The green button above automatically opens the call in <b>Safari</b> so your email stays separate.
+        <br><br><span style="font-size: 14px; color: #ccc;"><i>Note: If your browser is already open or you don't see an external app prompt, you can freely open other emails and view attachments during the meeting without closing the call.</i></span>
       </div>
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
@@ -79,25 +81,17 @@
     const isIOS = /iPhone|iPad|iPod/i.test(ua);
     const btn = document.getElementById("join-btn");
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const alreadyHandedOff = urlParams.get("browser") === "1";
-
-    // Detect explicit WebView signatures OR brand-new single-entry Custom Tab containers
-    const isAndroidWebView = isAndroid && (/;\s*wv\b/i.test(ua) || /Version\/4\.0/i.test(ua));
-    const isIOSWebView = isIOS && !/Safari\//i.test(ua);
-    const isFreshCustomTab = (window.history.length <= 1) && !document.referrer;
-
-    const shouldShowPdfTip = !alreadyHandedOff && (isAndroidWebView || isIOSWebView || isFreshCustomTab);
+    // History filter: If history.length > 1, the user is likely browsing normally or has an active session state
+    const hasPriorHistory = window.history.length > 1;
 
     if (isAndroid) {
       document.querySelector(".os-android").style.display = "block";
       const stripped = targetUrl.replace(/^https?:\/\//, "");
       btn.href = "intent://" + stripped + "#Intent;scheme=https;action=android.intent.action.VIEW;S.browser_fallback_url=" + encodeURIComponent(targetUrl) + ";end";
 
-      if (shouldShowPdfTip) {
+      // Show PDF tip only if it's a fresh mobile container launch without a prior history chain
+      if (!hasPriorHistory) {
         document.getElementById("android-pdf-card").style.display = "block";
-        urlParams.set("browser", "1");
-        window.history.replaceState({}, "", window.location.pathname + "?" + urlParams.toString() + window.location.hash);
       }
 
       if (/SamsungBrowser/i.test(ua)) {
@@ -119,10 +113,8 @@
       document.querySelector(".os-ios").style.display = "block";
       btn.href = targetUrl.replace(/^https:\/\//, "x-safari-https://");
 
-      if (shouldShowPdfTip) {
+      if (!hasPriorHistory) {
         document.getElementById("ios-pdf-card").style.display = "block";
-        urlParams.set("browser", "1");
-        window.history.replaceState({}, "", window.location.pathname + "?" + urlParams.toString() + window.location.hash);
       }
     } else {
       document.querySelector(".os-desktop").style.display = "block";
