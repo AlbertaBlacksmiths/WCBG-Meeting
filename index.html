@@ -5,21 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Joining Guild Meeting...</title>
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 50px 20px; background: #1a1a1a; color: #fff; }
-    .btn { display: inline-block; margin-top: 25px; padding: 20px 32px; font-size: 22px; font-weight: bold;
+    body { font-family: sans-serif; text-align: center; padding: 45px 20px; background: #1a1a1a; color: #fff; }
+    .btn { display: inline-block; margin-top: 20px; padding: 20px 32px; font-size: 22px; font-weight: bold;
            background: #2e7d32; color: #fff; text-decoration: none; border-radius: 10px; }
-    .tip { margin-top: 25px; font-size: 15px; color: #ccc; line-height: 1.5; max-width: 480px; margin-left: auto; margin-right: auto; text-align: left; }
-    .tip li { margin-bottom: 12px; }
+    .cards { max-width: 420px; margin: 30px auto 0; text-align: left; }
+    .card { background: #262626; border-left: 4px solid #4caf50; padding: 12px 16px; border-radius: 6px;
+            margin-bottom: 12px; font-size: 16px; line-height: 1.4; color: #eee; }
+    .card strong { color: #fff; display: block; margin-bottom: 2px; }
+    .warn { color: #fbc02d; }
+    .os-android, .os-ios, .os-desktop { display: none; }
   </style>
 </head>
 <body>
   <h2>Blacksmithing Guild Video Room</h2>
-  <p>Tap the green button below to join the meeting:</p>
   <a id="join-btn" class="btn" href="https://jitsi.riot.im/WesternCanadianBlacksmithsGuild#config.startWithAudioMuted=true&config.disableDeepLinking=true">Join Meeting in Browser</a>
-  
-  <ul class="tip">
-    <li><strong>Unable to unmute?</strong> Don't tap the big green button! Instead, tap the <strong>three dots (⋮)</strong> in your browser's top-right corner and select <strong>Open in Chrome</strong> (or Safari) so your meeting and email stay in separate windows. This will also let you open the agenda pdf in the email without closing the meeting!</li>
-  </ul>
+
+  <div class="cards">
+    <!-- ANDROID INSTRUCTIONS -->
+    <div class="os-android">
+      <div class="card">
+        <strong>Want to view email PDFs during the call?</strong>
+        Tap <b>⋮</b> (top right) &rarr; <b>Open in Chrome</b>.
+      </div>
+      <div class="card">
+        <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
+        Tap <b>⋮</b> (top right) &rarr; <b>Settings</b> &rarr; <b>Site settings</b> &rarr; <b>Microphone</b> &amp; <b>Camera</b> &rarr; unblock <b>jitsi.riot.im</b>.
+      </div>
+    </div>
+
+    <!-- iOS (iPHONE / iPAD) INSTRUCTIONS -->
+    <div class="os-ios">
+      <div class="card">
+        <strong>Want to view email PDFs during the call?</strong>
+        Tap the <b>🧭 Safari compass</b> (bottom right) to open in a separate browser window.
+      </div>
+      <div class="card">
+        <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
+        Open your iPhone <b>⚙️ Settings app</b> &rarr; <b>🧭 Safari</b> &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b> (or <b>Ask</b>).
+      </div>
+    </div>
+
+    <!-- DESKTOP FALLBACK INSTRUCTIONS -->
+    <div class="os-desktop">
+      <div class="card">
+        <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
+        Click the <b>tune/lock icon</b> left of the web address &rarr; set <b>Microphone</b> and <b>Camera</b> to <b>Allow</b>.
+      </div>
+    </div>
+  </div>
 
   <script>
     const targetUrl = "https://jitsi.riot.im/WesternCanadianBlacksmithsGuild#config.startWithAudioMuted=true&config.disableDeepLinking=true";
@@ -29,11 +62,14 @@
     const btn = document.getElementById("join-btn");
 
     if (isAndroid) {
+      document.querySelector(".os-android").style.display = "block";
       const stripped = targetUrl.replace(/^https?:\/\//, "");
       btn.href = "intent://" + stripped + "#Intent;scheme=https;action=android.intent.action.VIEW;S.browser_fallback_url=" + encodeURIComponent(targetUrl) + ";end";
     } else if (isIOS) {
+      document.querySelector(".os-ios").style.display = "block";
       btn.href = targetUrl.replace(/^https:\/\//, "x-safari-https://");
     } else {
+      document.querySelector(".os-desktop").style.display = "block";
       window.location.replace(targetUrl);
     }
   </script>
