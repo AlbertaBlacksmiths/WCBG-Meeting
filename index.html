@@ -32,9 +32,9 @@
         Firefox has known audio issues with Jitsi. For best results, copy this page's link and open it in <b>Chrome</b>.
       </div>
       <div id="android-pdf-card" class="card pdf-tip">
-        <strong>Want to open emails during the meeting?</strong>
+        <strong>Want to check emails during the meeting?</strong>
         Tap the <span id="and-menu-icon-1" class="icon-badge">⋮</span> menu button (<span id="and-menu-pos">top right</span>) &rarr; <b id="and-open-text">Open in Chrome</b>. 
-        <br><br><span style="font-size: 14px; color: #ccc;"><i>Note: If you don't see this option, or if you are already using your browser, you can freely open other emails and view attachments during the meeting without closing the call.</i></span>
+        <br><br><span style="font-size: 14px; color: #ccc;"><i>Note: If you don't see "<span id="and-open-text-note">Open in Chrome</span>", or if you are already using your browser, you can freely open other emails and view attachments during the meeting without closing the call.</i></span>
       </div>
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
@@ -45,9 +45,9 @@
     <!-- iOS (iPHONE / iPAD) INSTRUCTIONS -->
     <div class="os-ios">
       <div id="ios-pdf-card" class="card pdf-tip">
-        <strong>Want to open emails during the meeting?</strong>
+        <strong>Want to check emails during the meeting?</strong>
         The green button above automatically opens the call in <b>Safari</b> so your email stays separate.
-        <br><br><span style="font-size: 14px; color: #ccc;"><i>Note: If your browser is already open or you don't see an external app prompt, you can freely open other emails and view attachments during the meeting without closing the call.</i></span>
+        <br><br><span style="font-size: 14px; color: #ccc;"><i>Note: If you don't see "Open in Safari", or if your browser is already open, you can freely open other emails and view attachments during the meeting without closing the call.</i></span>
       </div>
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
@@ -94,21 +94,26 @@
         document.getElementById("android-pdf-card").style.display = "block";
       }
 
+      let openOptionLabel = "Open in Chrome";
+
       if (/SamsungBrowser/i.test(ua)) {
         document.getElementById("and-menu-icon-1").textContent = "☰";
         document.getElementById("and-menu-icon-2").textContent = "☰";
         document.getElementById("and-menu-pos").textContent = "bottom right";
-        document.getElementById("and-open-text").textContent = "Open in Samsung Internet";
+        openOptionLabel = "Open in Samsung Internet";
         document.getElementById("and-site-settings").textContent = "Sites and downloads → Site permissions";
       } else if (/Firefox/i.test(ua)) {
         document.getElementById("android-firefox-card").style.display = "block";
-        document.getElementById("and-open-text").textContent = "Open in Firefox";
+        openOptionLabel = "Open in Firefox";
         document.getElementById("and-site-settings").textContent = "Site permissions";
       } else if (/EdgA/i.test(ua)) {
-        document.getElementById("and-open-text").textContent = "Open in Edge";
+        openOptionLabel = "Open in Edge";
       } else if (/Brave/i.test(ua)) {
-        document.getElementById("and-open-text").textContent = "Open in Brave";
+        openOptionLabel = "Open in Brave";
       }
+
+      document.getElementById("and-open-text").textContent = openOptionLabel;
+      document.getElementById("and-open-text-note").textContent = openOptionLabel;
     } else if (isIOS) {
       document.querySelector(".os-ios").style.display = "block";
       btn.href = targetUrl.replace(/^https:\/\//, "x-safari-https://");
