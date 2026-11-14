@@ -46,8 +46,8 @@
     <div class="os-ios">
       <div id="ios-pdf-card" class="card pdf-tip">
         <strong>Want to check emails during the meeting?</strong>
-        The green button above automatically opens the call in <b>Safari</b> so your email stays separate.
-        <br><br><span style="font-size: 14px; color: #ccc;"><i>Note: If you don't see "Open in Safari", or if your browser is already open, you can freely open other emails and view attachments during the meeting without closing the call.</i></span>
+        The green button above automatically opens the call in <b>Safari</b> so your email stays separate (or you can tap the <span class="icon-badge">🧭</span> Safari icon in the corner).
+        <br><br><span style="font-size: 14px; color: #ccc;"><i>Note: If you don't see the <span class="icon-badge">🧭</span> icon or "Open in Safari", or if your browser is already open, you can freely open other emails and view attachments during the meeting without closing the call.</i></span>
       </div>
       <div class="card">
         <strong>Seeing <span class="warn">"You need to enable microphone and camera access"</span>?</strong>
@@ -97,9 +97,8 @@
       let openOptionLabel = "Open in Chrome";
 
       if (/SamsungBrowser/i.test(ua)) {
-        document.getElementById("and-menu-icon-1").textContent = "☰";
-        document.getElementById("and-menu-icon-2").textContent = "☰";
-        document.getElementById("and-menu-pos").textContent = "bottom right";
+        // Custom Tab (Card 1) uses top-right ⋮, while full browser Settings (Card 2) uses bottom-right ☰
+        document.getElementById("and-menu-icon-2").textContent = "☰ (bottom right)";
         openOptionLabel = "Open in Samsung Internet";
         document.getElementById("and-site-settings").textContent = "Sites and downloads → Site permissions";
       } else if (/Firefox/i.test(ua)) {
